@@ -1,0 +1,61 @@
+{
+  "name": "Sales Forecaster",
+  "agents": {
+    "pipeline_analyst": "6473e8f0-564d-52f4-92cb-0cb72ae380e5",
+    "history_analyst": "fd966e19-84cc-56de-afcc-59008d772e6c",
+    "forecast_publisher": "6a844c68-a41e-5c3f-887d-dfa26f07aefd"
+  },
+  "workflows": {
+    "flow": "20f01e4b-e423-5fa4-97b0-a94a96c81924"
+  },
+  "ui": {
+    "title": "Sales Forecaster",
+    "tagline": "A weekly forecast you can explain: pulls the open pipeline and your own historical stage win rates, computes the forecast in code with a discount for stale deals, gives commit and best-case ranges, names the deals worth inspecting, and sends a forecast that misses target to the sales head first.",
+    "actions": [
+      {
+        "id": "run",
+        "label": "Run: Weekly sales forecast",
+        "description": "Each week Kaman pulls the open pipeline and the win history in parallel, computes a forecast in code from your own stage conversion rates with a slippage discount for stale deals, explains the risks and the deals to inspect, and sends a forecast that misses target to the sales head before posting it.",
+        "kind": "workflow",
+        "target": "flow",
+        "wrap": "payload",
+        "inputs": [
+          {
+            "name": "quarter",
+            "label": "Quarter",
+            "kind": "text",
+            "default": "2026-Q4"
+          },
+          {
+            "name": "target",
+            "label": "Target",
+            "kind": "number",
+            "default": 1200000
+          },
+          {
+            "name": "team",
+            "label": "Team",
+            "kind": "text",
+            "default": "Mid-market"
+          }
+        ]
+      },
+      {
+        "id": "ask",
+        "label": "Ask the Pipeline Analyst",
+        "description": "Pulls the open pipeline and closed-won to date for a quarter from Salesforce.",
+        "kind": "agent",
+        "target": "pipeline_analyst",
+        "prompt": "{{question}}",
+        "inputs": [
+          {
+            "name": "question",
+            "label": "Your question",
+            "kind": "text",
+            "default": "Pull 2026-Q4 pipeline for Mid-market."
+          }
+        ]
+      }
+    ]
+  }
+}
